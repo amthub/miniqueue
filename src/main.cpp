@@ -1,7 +1,9 @@
-#include<iostream>
-using namespace std;
+#include <iostream>
+#include "log.h"
 
 int main() {
-    cout << "MiniQueue starting" << endl;
+    Log log("test.log");
+    std::cout << "offset " << log.append("hello") << std::endl;
+    std::cout << "offset " << log.append("world") << std::endl;
     return 0;
 }
