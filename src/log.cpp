@@ -6,6 +6,32 @@ Log::Log(const std::string& path)
     if (!out_) {
         throw std::runtime_error("cannot open log file: " + path);
     }
+    recover();
+}
+
+void Log::recover() {
+    std::ifstream in(path_, std::ios::binary);
+    if (!in) {
+        return;
+    }
+
+    in.seekg(0, std::ios::end);
+    uint64_t size = static_cast<uint64_t>(in.tellg());
+    in.seekg(0, std::ios::beg);
+
+    uint64_t pos = 0;
+    uint64_t count = 0;
+    uint32_t len = 0;
+    while (pos + sizeof(len) <= size) {
+        in.read(reinterpret_cast<char*>(&len), sizeof(len));
+        if (pos + sizeof(len) + len > size) {
+            break;  // incomplete record at the end, so stop counting
+        }
+        in.seekg(len, std::ios::cur);
+        pos += sizeof(len) + len;
+        ++count;
+    }
+    next_offset_ = count;
 }
 
 uint64_t Log::append(const std::string& message) {

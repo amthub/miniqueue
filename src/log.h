@@ -10,6 +10,7 @@ public:
     std::string read(uint64_t offset);
 
 private:
+    void recover();
     std::string path_;
     std::ofstream out_;
     uint64_t next_offset_ = 0;
