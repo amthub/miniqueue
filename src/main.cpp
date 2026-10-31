@@ -3,7 +3,9 @@
 
 int main() {
     Log log("test.log");
-    std::cout << "offset " << log.append("hello") << std::endl;
-    std::cout << "offset " << log.append("world") << std::endl;
+    uint64_t a = log.append("hello");
+    uint64_t b = log.append("world");
+    std::cout << "read " << a << ": " << log.read(a) << std::endl;
+    std::cout << "read " << b << ": " << log.read(b) << std::endl;
     return 0;
 }
