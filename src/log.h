@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <fstream>
 #include <string>
+#include <vector>
 
 class Log {
 public:
@@ -13,5 +14,6 @@ private:
     void recover();
     std::string path_;
     std::ofstream out_;
-    uint64_t next_offset_ = 0;
+    std::vector<uint64_t> index_;
+    uint64_t file_size_ = 0;
 };
